@@ -1,0 +1,21 @@
+.font-green-sharp{color:#4DB3A2!important}
+.uppercase{text-transform:uppercase!important}
+.bold{font-weight:700!important}
+.portlet>.portlet-title>.caption>.caption-helper{padding:0;margin:0;line-height:13px;color:#9eacb4;font-size:13px;font-weight:400}
+.portlet-title{padding:0;min-height:48px;border-bottom:1px solid #eee;margin-bottom:10px}
+.portlet>.portlet-title>.caption{float:left;display:inline-block;font-size:18px;line-height:18px;padding:10px 0}
+.chart-wrap{height:400px}
+.page-container-bg-solid .page-content{background:#F1F3FA}
+.page-title{color:#666;margin-bottom:20px;margin-top:20px;font-size:26px}
+.page-content .breadcrumb{position:relative;background-color:#fff;margin:0 -20px 0 -20px}
+.portlet.wande{padding:12px 20px 15px 20px;background-color:#fff}
+.portlet.wande>.portlet-title>.caption>i{color:#777;font-size:15px;font-weight:300;margin-top:3px}
+.portlet.wande>.portlet-title>.caption{color:#666;padding:10px 0}
+.wande{padding:12px 20px 15px 20px;background-color:#fff;margin-bottom:20px}
+.overview{padding:12px 20px 15px 20px;margin-bottom:20px;background-color:#FFF}
+.overview-table{width:100%;height:100%}
+.map-chart,.overview-table{height:360px}
+.overview-table td{text-align:center;vertical-align:middle;font-size:24px;line-height:38px;color:#333}
+.overview-table tr:first-child>td{border-bottom:2px dashed #ccc}
+.flow{width:220px;height:50px;display:inline-block;text-left:center;padding:10px;line-height:50px;font-size:14px; background-color: #d9edf7;color:green;}
+li {list-style-type:none;}
