@@ -3,7 +3,9 @@ export default {
         {
             key: '/app/index', title: '首页', icon: 'star', component: 'Index'
         },
-       
+        {
+            key: '/app/banner', title: '投资案例管理', icon: 'star', component: 'Banner'
+        },
         {
             key: '/subs4', title: '页面', icon: 'switcher',
             subs: [

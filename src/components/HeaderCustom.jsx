@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Menu, Icon, Layout, Badge, Popover } from 'antd';
 import screenfull from 'screenfull';
-import { gitOauthToken, gitOauthInfo } from '../axios';
+// import { gitOauthToken, gitOauthInfo } from '../axios';
 import { queryString } from '../utils';
-import avater from '../style/imgs/b1.jpg';
+import avater from '../style/imgs/avator.jpg';
 import SiderCustom from './SiderCustom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -20,17 +20,16 @@ class HeaderCustom extends Component {
         const QueryString = queryString();
         const _user = JSON.parse(localStorage.getItem('user')) || '测试';
         if (!_user && QueryString.hasOwnProperty('code')) {
-            gitOauthToken(QueryString.code).then(res => {
-                gitOauthInfo(res.access_token).then(info => {
-                    this.setState({
-                        user: info
-                    });
-                    localStorage.setItem('user', JSON.stringify(info));
-                });
-            });
+            this.setState({
+                 user: {
+                     userName: '吴土福'
+                 }
+            })
         } else {
             this.setState({
-                user: _user
+                user: {
+                     userName: '吴土福'
+                 }
             });
         }
     };
@@ -88,13 +87,10 @@ class HeaderCustom extends Component {
                     </Menu.Item>
                     <SubMenu title={<span className="avatar"><img src={avater} alt="头像" /><i className="on bottom b-white" /></span>}>
                         <MenuItemGroup title="用户中心">
-                            <Menu.Item key="setting:1">你好 - {this.props.user.userName}</Menu.Item>
+                            {/* <Menu.Item key="setting:1">你好 - {this.props.user.userName}</Menu.Item> */}
+                            <Menu.Item key="setting:1">你好 - {this.state.user.userName}</Menu.Item>
                             <Menu.Item key="setting:2">个人信息</Menu.Item>
                             <Menu.Item key="logout"><span onClick={this.logout}>退出登录</span></Menu.Item>
-                        </MenuItemGroup>
-                        <MenuItemGroup title="设置中心">
-                            <Menu.Item key="setting:3">个人设置</Menu.Item>
-                            <Menu.Item key="setting:4">系统设置</Menu.Item>
                         </MenuItemGroup>
                     </SubMenu>
                 </Menu>

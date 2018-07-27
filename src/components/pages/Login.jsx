@@ -4,41 +4,30 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchData, receiveData } from '@/action';
 import axios from 'axios';
+import Base from '@/commonjs/base.js';
 
 const FormItem = Form.Item;
 
 class Login extends React.Component {
     componentWillMount() {
-        const { receiveData } = this.props;
-        receiveData(null, 'auth');
     }
-    // componentWillReceiveProps(nextProps) {
-    //     const { auth: nextAuth = {} } = nextProps;
-    //     const { history } = this.props;
-    //     if (nextAuth.data && nextAuth.data.uid) {   // 判断是否登陆
-    //         localStorage.setItem('user', JSON.stringify(nextAuth.data));
-    //         history.push('/');
-    //     }
-    // }
+ 
     componentDidUpdate(prevProps) { // React 16.3+弃用componentWillReceiveProps
-        const { auth: nextAuth = {}, history } = this.props;
-        // const { history } = this.props;
-        if (nextAuth.data && nextAuth.data.uid) {   // 判断是否登陆
-            localStorage.setItem('user', JSON.stringify(nextAuth.data));
-            history.push('/');
-        }
     }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 var params = new URLSearchParams();
                 params.append('account', values.account);
                 params.append('password', values.password);
                 axios.post('/api/rbacUser/login',params).then(result=>{
+                    result = result.data;
+                    console.log(result,'result');
+                    debugger
                     if(result.code === 0){
                         Base.cookie(Base.cookieId,result.obj);
+                        this.props.history.push('/app/index');
                     }
                 })
             }
@@ -82,6 +71,7 @@ class Login extends React.Component {
 
 const mapStateToPorps = state => {
     const { auth } = state.httpData;
+    console.log(state.httpData,'state.httpData');
     return { auth };
 };
 const mapDispatchToProps = dispatch => ({

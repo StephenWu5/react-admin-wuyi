@@ -8,9 +8,6 @@ import { createStore, applyMiddleware } from 'redux';
 import reducer from './reducer';
 import { AppContainer } from 'react-hot-loader';
 import Page from './Page';
-// commonjs的引入
-import './commonjs/base.js';
-import './commonjs/validateInit.js';
 
 // redux 注入操作
 const middleware = [thunk];

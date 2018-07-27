@@ -5,11 +5,10 @@ import AuthBasic from './auth/Basic';
 import RouterEnter from './auth/RouterEnter';
 
 import Index from './index/Index.jsx';
-console.log(Index,'index');
+import Banner from './banner/Banner.jsx';
 
 
 
 export default {
-    AuthBasic, RouterEnter,
-     Index
+    AuthBasic, RouterEnter,Banner,Index
 }

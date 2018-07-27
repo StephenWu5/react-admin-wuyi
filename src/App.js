@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, notification, Icon } from 'antd';
 import './style/index.less';
-import './style/common/common.less';
 import SiderCustom from './components/SiderCustom';
 import HeaderCustom from './components/HeaderCustom';
 import { receiveData } from './action';
@@ -18,7 +17,9 @@ class App extends Component {
     componentWillMount() {
         const { receiveData } = this.props;
         const user = JSON.parse(localStorage.getItem('user'));
-        user && receiveData(user, 'auth');
+        // 这里写一个接口获取用户名;
+        // user && receiveData(user, 'auth');
+        //适配屏幕
         this.getClientWidth();
         window.onresize = () => {
             console.log('屏幕变化了');
@@ -26,6 +27,7 @@ class App extends Component {
         }
     }
     componentDidMount() {
+        //新消息管理
         const openNotification = () => {
             notification.open({
               message: '博主-yezihaohao',
@@ -47,12 +49,14 @@ class App extends Component {
         const isFirst = JSON.parse(localStorage.getItem('isFirst'));
         !isFirst && openNotification();
     }
-    getClientWidth = () => {    // 获取当前浏览器宽度并设置responsive管理响应式
+    // 获取当前浏览器宽度并设置responsive管理响应式
+    getClientWidth = () => {    
         const { receiveData } = this.props;
         const clientWidth = document.body.clientWidth;
         console.log(clientWidth);
         receiveData({isMobile: clientWidth <= 992}, 'responsive');
     };
+    // 侧边栏控制
     toggle = () => {
         this.setState({
             collapsed: !this.state.collapsed,
