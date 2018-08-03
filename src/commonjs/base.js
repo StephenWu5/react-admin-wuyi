@@ -1,5 +1,5 @@
 let root = window,
-    Cookie = require('cookie');
+    $ = require('jquery');
 let Base = {
     cookieId:'SYS-PCSID',
     url: {
@@ -37,39 +37,7 @@ let Base = {
             window.location.href = redirectURL ? decodeURIComponent(redirectURL) : url;
         }
     },
-    browser: function () {
-        var ua = navigator.userAgent,
-            type,
-            version,
-            matches;
 
-        if ((matches = us.match(/MicroMessenger\/(\d\.\d)/)) && matches.length) {
-            type = 'weixin';
-            version = matches[1];
-        }
-
-        return {
-            isPC: function () {
-                var sUserAgent = navigator.userAgent.toLowerCase();
-                var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
-                var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
-                var bIsMidp = sUserAgent.match(/midp/i) == "midp";
-                var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
-                var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
-                var bIsAndroid = sUserAgent.match(/android/i) == "android";
-                var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
-                var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-
-                if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)) {
-                    return true;
-                }
-
-                return false;
-            }(),
-            type: type,
-            version: version
-        }
-    },
     throttle: function (fn,dealy) {
         var timer = null;
         return function () {
@@ -99,19 +67,17 @@ let Base = {
         des = parseInt(des, 10) / times;
         return des + ''
     },
-    cookie: function (key, value, options) {
-        var args = Array.prototype.slice.call(arguments);
-        if(args.length >= 2){
-            args[2] = $.extend({}, {
-                domain: root.location.hostname,
-                path: '/',
-                expires: 90 // 默认90天过期
-            }, options);
-        }
-        return Cookie.apply(null,args);
+    //设置cookie
+    setCookie: function(name,value,expire){
+        var never = new Date();
+        //设置never的时间为当前时间加上十年的毫秒值
+        never.setTime(never.getTime() + expire);
+        var expString = "expires="+ never.toGMTString()+";";
+        document.cookie =  name + "=" +escape(value)+"; "+expString;
     },
-    getCookieSid: function(key){
-        return Cookie.get(this.cookieId);
+    //清除cookie
+    clearCookie:function (name,value,expire) {
+        this.setCookie(name,value,expire);
     },
     assignObj: function (vm, firstSource) {
         for (var i = 1; i < arguments.length; i++) {
@@ -293,38 +259,6 @@ let Base = {
     	var arr = JSON.parse('[' + arrStr + '] ');
     	return arr;
     },
-    alert:function(msg,callback){
-    	layui.use('layer', function(){ 
-    		var $ = layui.jquery, layer = layui.layer; 
-    		layer.msg(msg,{icon:1,time:1500},callback);
-    	});
-    },
-
-    getHashStr:function(name){
-    	 var url = location.hash; //获取url中"?"符后的字串
-         var theRequest = new Object();
-         if (url.indexOf("?")) {
-             var str = url.substr(url.indexOf("?") + 1);
-             var strs = str.split("&");
-             for (var i = 0; i < strs.length; i++) {
-                 theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
-             }
-         }
-         return theRequest[name];
-    },
-
-    // orderType:1 升序   orderType :-1 降序
-    changeOrder:function (id,orderType,self,cgi) {
-        let orderListParams = {id:id ,operType:orderType},
-         index = $(event.currentTarget).parent().parent().data("index");
-        if(orderType === 1 && index !== 0 || orderType === -1 && index !== 3 ){
-            Base.fetch(cgi.saveListOrder,orderListParams).done(function(result){
-                if(result.code === 0) {
-                    self.loadPageData();
-                }
-            });
-        }
-    }
 
 };
 

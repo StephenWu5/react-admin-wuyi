@@ -2,6 +2,7 @@ import React from 'react';
 import reqwest from 'reqwest';
 import {Breadcrumb,Button,Icon,Menu,Dropdown,Input} from 'antd';
 import { Table, Divider } from 'antd';
+import Model from './Model.jsx';
 import './Banner.css';
 import $ from 'jquery';
 
@@ -77,28 +78,18 @@ render: img=> (
 ];
 
 
-class Banner extends React.Component {  
-    // constructor(props){
-    //     super(props);
-    //     this.state = {
-    //         searchKey: "旅游",
-    //         arr: ['旅游', '教育', '科技金庸','体育娱乐'],
-    //         selectedRowKeys: [], 
-    //         loading: false,
-    //         data: [],
-    //         pagination: {}
-    //     }
-    // }
-
+class Banner extends React.Component {
+    //组件中的变量
     state = {
         searchKey: "旅游",
         arr: ['旅游', '教育', '科技金庸','体育娱乐'],
         selectedRowKeys: [], 
         loading: false,
         data: [],
-        pagination: {}
+        pagination: {},
     };
 
+    // 表格
     handleTableChange = (pagination, filters, sorter) => {
         const pager = { ...this.state.pagination };
         pager.current = pagination.current;
@@ -153,6 +144,13 @@ class Banner extends React.Component {
         event.preventDefault();
     }
 
+    //模态框的书写
+    showModal = () => {
+        this.setState({
+            isModalVisible: true,
+        });
+    }
+
     componentDidMount() {
         this._isMounted = true;
         this.fetch();
@@ -176,14 +174,16 @@ class Banner extends React.Component {
             );
         return (
             <div>
+                {/*面包屑*/}
                 <Breadcrumb className="breadcrumb">
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
                     <Breadcrumb.Item><a href="">Application Center</a></Breadcrumb.Item>
                     <Breadcrumb.Item><a href="">Application List</a></Breadcrumb.Item>
                     <Breadcrumb.Item>An Application</Breadcrumb.Item>
                 </Breadcrumb>
+                {/*表格*/}
                 <div className="content-wrapper">
-                    <Button type="primary">添加<Icon type="plus"/></Button>
+                    <Model style={{width: '180px'}} className="model"></Model>
                     <Dropdown overlay={menu} placement="bottomLeft">
                         <Button>{this.state.searchKey}</Button>
                     </Dropdown>
@@ -203,6 +203,8 @@ class Banner extends React.Component {
                         loading={this.state.loading}
                         onChange={this.handleTableChange}
                     />
+
+
                 </div>
                 
             </div>

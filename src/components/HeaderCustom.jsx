@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Menu, Icon, Layout, Badge, Popover } from 'antd';
 import screenfull from 'screenfull';
 // import { gitOauthToken, gitOauthInfo } from '../axios';
+import Base from '@/commonjs/base.js';
 import { queryString } from '../utils';
 import avater from '../style/imgs/avator.jpg';
 import SiderCustom from './SiderCustom';
@@ -44,6 +45,7 @@ class HeaderCustom extends Component {
         e.key === 'logout' && this.logout();
     };
     logout = () => {
+        Base.clearCookie(Base.cookieId,'',-1);
         localStorage.removeItem('user');
         this.props.history.push('/login')
     };

@@ -24,9 +24,8 @@ class Login extends React.Component {
                 axios.post('/api/rbacUser/login',params).then(result=>{
                     result = result.data;
                     console.log(result,'result');
-                    debugger
                     if(result.code === 0){
-                        Base.cookie(Base.cookieId,result.obj);
+                        Base.setCookie(Base.cookieId,result.obj,365*24*60*60*1000);
                         this.props.history.push('/app/index');
                     }
                 })

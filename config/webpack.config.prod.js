@@ -102,7 +102,6 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
         '@': paths.appSrc,
-        'cookie': path.resolve(__dirname, '../src/lib/cookie')
     },
     plugins: [
       new ModuleScopePlugin(paths.appSrc)

@@ -60,8 +60,7 @@ module.exports = {
     extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
       'react-native': 'react-native-web',
-        '@': paths.appSrc,
-        'cookie': path.resolve(__dirname, '../src/utils/cookie')
+        '@': paths.appSrc
     },
     plugins: [
         new ModuleScopePlugin(paths.appSrc)
