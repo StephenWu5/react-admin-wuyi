@@ -2,9 +2,9 @@ import React from 'react';
 import reqwest from 'reqwest';
 import {Breadcrumb,Button,Icon,Menu,Dropdown,Input} from 'antd';
 import { Table, Divider } from 'antd';
-import Model from './Model.jsx';
+import AddModel from './addModel.jsx';
+import DeleteModel from './deleteModel.jsx';
 import './Banner.css';
-import $ from 'jquery';
 
 const Search = Input.Search;
 
@@ -18,14 +18,13 @@ const columns = [{
     title: '所属领域',
     dataIndex: 'style_id',
     render: title => {
-        console.log(title,'title');
         return (
             title
         )
     },
     filters: [
-        { text: 'Male', value: 'male' },
-        { text: 'Female', value: 'female' },
+        { text: '体游', value: '8' },
+        { text: '旅游', value: '13' },
     ],
     width: '6%',
 }, 
@@ -64,12 +63,12 @@ render: img=> (
 },
 {
     title: '操作',
-    dataIndex: 'text1',
-    render: (text1, record) => (
+    dataIndex: 'id',
+    render: (id, record) => (
         <span style={{fontWeight: 400,fontSize: '12px'}}>
             <a href="javascript:;" style={{ color: '#1990FF'}}>编辑</a>
             <Divider type="vertical" />
-            <a href="javascript:;" style={{  color: 'red'}}>删除</a>
+            <DeleteModel id={id}></DeleteModel>
             <Divider type="vertical" />
         </span>
     ),
@@ -119,12 +118,11 @@ class Banner extends React.Component {
             method: 'get',
             data: {
                 pageSize: 5,
-                _: 1532589069791,
+                // _: 1532589069791,
                 ...params,
             },
             type: 'json',
         }).then((data) => {
-            console.log(data,'data');
             const pagination = { ...this.state.pagination };
             pagination.total = 80;
             if (this._isMounted) {
@@ -174,6 +172,7 @@ class Banner extends React.Component {
             );
         return (
             <div>
+
                 {/*面包屑*/}
                 <Breadcrumb className="breadcrumb">
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
@@ -183,7 +182,7 @@ class Banner extends React.Component {
                 </Breadcrumb>
                 {/*表格*/}
                 <div className="content-wrapper">
-                    <Model style={{width: '180px'}} className="model"></Model>
+                    <AddModel style={{width: '180px'}} className="addModel"></AddModel>
                     <Dropdown overlay={menu} placement="bottomLeft">
                         <Button>{this.state.searchKey}</Button>
                     </Dropdown>
@@ -203,8 +202,6 @@ class Banner extends React.Component {
                         loading={this.state.loading}
                         onChange={this.handleTableChange}
                     />
-
-
                 </div>
                 
             </div>

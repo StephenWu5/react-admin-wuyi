@@ -1,10 +1,11 @@
-.ant-modal-title{
+ .ant-modal-title{
     font-weight: 700;
     font-size: 18px;
 }
 
 .ant-modal-body{
     position: relative;
+    height: 514px;
 }
 
 .ant-modal-body ul{

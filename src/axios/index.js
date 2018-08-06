@@ -1,18 +1,27 @@
 import axios from 'axios';
-import { get } from './tools';
-import * as config from './config';
+import Base from '@/commonjs/base.js';
 
-export const getPros = () => axios.post('http://api.xitu.io/resources/github', {
-    category: "trending",
-    period: "day",
-    lang: "javascript",
-    offset: 0,
-    limit: 30
-}).then(function (response) {
-    return response.data;
-}).catch(function (error) {
-    console.log(error);
+const axiosP = axios.create({
+    headers: {
+        'SYS-PCSID': Base.getCookie(Base.cookieId)
+    }
 });
+
+
+//添加投资案例
+export const addInvestmentCase = (params) => axiosP.post('/api/investmentCase/save',params).then(result=>{
+    result = result.data;
+    (result.code === 0) && window.location.reload(true)
+})
+
+//删除投资案例
+export const deleteInvestmentCase = (params) => axiosP.post('/api/investmentCase/delete',params).then(result=>{
+    result = result.data;
+    (result.code === 0) && window.location.reload(true)
+})
+
+
+
 
 
 

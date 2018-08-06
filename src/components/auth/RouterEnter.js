@@ -5,6 +5,7 @@ import AuthWidget from '@/components/widget/AuthWidget';
 
 class RouterEnter extends Component {
     componentDidMount() {
+        debugger
         console.log('RouterEnter');
     }
     render() {
