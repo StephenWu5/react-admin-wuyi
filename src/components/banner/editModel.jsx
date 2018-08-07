@@ -141,14 +141,21 @@ class AddModel extends React.Component {
         });
     }
 
-
+    //如果是编辑模式
+    initForm(){
+        const { setFieldsValue } = this.props.form;
+        setFieldsValue({
+            name: '伍壹',
+            style_id: 8
+        });
+    }
 
     componentWillMount(){
 
     }
 
     componentDidMount(){
-
+        this.initForm();
     }
 
     render() {
@@ -164,7 +171,7 @@ class AddModel extends React.Component {
         }
         return (
             <div>
-                {this.props.type === 'add' ? <Button type="primary" onClick={this.showModal}>添加<Icon type="plus"/></Button> : <a href="javascript:;" style={{ color: '#1990FF'}} onClick={this.showModal}>编辑</a>}
+                <a href="javascript:;" style={{ color: '#1990FF'}} onClick={this.showModal}>编辑</a>
                 <Modal
                     className='modal666'
                     title="新增/编辑投资案例基本信息"
@@ -183,13 +190,13 @@ class AddModel extends React.Component {
                     </div>
                     <div className="content">
                         <Form onSubmit={this.handleSubmit}>
-                                <FormItem
-                                    wrapperCol={{ span: 19, offset: 5 }}
-                                >
-                                    <Button type="primary" htmlType="submit" style={{position:'absolute',left:'333px',top:'500px',zIndex:'999'}}>
-                                        保存
-                                    </Button>
-                                </FormItem>
+                            <FormItem
+                                wrapperCol={{ span: 19, offset: 5 }}
+                            >
+                                <Button type="primary" htmlType="submit" style={{position:'absolute',left:'333px',top:'500px',zIndex:'999'}}>
+                                    保存
+                                </Button>
+                            </FormItem>
                             <div className={this.state.visibleA}>
                                 <FormItem
                                     label="案例名称"
@@ -281,7 +288,7 @@ class AddModel extends React.Component {
                                 >
                                     {getFieldDecorator('text', {
                                     })(
-                                        <Ueditor  idEditor={'Content'} height="200" valuezhi="value" callback={(content)=>{
+                                        <Ueditor  id='content' height="200" valuezhi="value" callback={(content)=>{
                                             this.handleUeditorContent(content);
                                         }}/>
                                     )}

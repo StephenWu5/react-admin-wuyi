@@ -1,4 +1,4 @@
- .ant-modal-title{
+.ant-modal-title{
     font-weight: 700;
     font-size: 18px;
 }
@@ -31,5 +31,5 @@
 }
 
 .ant-modal-body .content .hidden{
-    display: none!important;
+    display: none;
 }

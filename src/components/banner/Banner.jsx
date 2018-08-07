@@ -3,6 +3,7 @@ import reqwest from 'reqwest';
 import {Breadcrumb,Button,Icon,Menu,Dropdown,Input} from 'antd';
 import { Table, Divider } from 'antd';
 import AddModel from './addModel.jsx';
+// import EditModel from './editModel';
 import DeleteModel from './deleteModel.jsx';
 import './Banner.css';
 
@@ -66,7 +67,7 @@ render: img=> (
     dataIndex: 'id',
     render: (id, record) => (
         <span style={{fontWeight: 400,fontSize: '12px'}}>
-            <a href="javascript:;" style={{ color: '#1990FF'}}>编辑</a>
+            <AddModel style={{width: '180px'}} className="addModel" type='edit'></AddModel>
             <Divider type="vertical" />
             <DeleteModel id={id}></DeleteModel>
             <Divider type="vertical" />
@@ -182,7 +183,7 @@ class Banner extends React.Component {
                 </Breadcrumb>
                 {/*表格*/}
                 <div className="content-wrapper">
-                    <AddModel style={{width: '180px'}} className="addModel"></AddModel>
+                    <AddModel style={{width: '180px'}} className="addModel" type="add"></AddModel>
                     <Dropdown overlay={menu} placement="bottomLeft">
                         <Button>{this.state.searchKey}</Button>
                     </Dropdown>
