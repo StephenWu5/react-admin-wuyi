@@ -21,7 +21,7 @@ class DeleteModel extends React.Component {
         const id = this.props.id;
         var params = new URLSearchParams();
         params.append('id',id);
-        deleteInvestmentCase(params);
+        // deleteInvestmentCase(params);
         this.setState({
             visible: false,
         });

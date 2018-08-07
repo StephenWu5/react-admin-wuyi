@@ -32,6 +32,7 @@ const props = {
     }
 }
 //图片上传的结束
+
 //下拉菜单的开始
 function handleButtonClick(e) {
     message.info('Click on left button.');
@@ -110,7 +111,6 @@ class AddModel extends React.Component {
                     params.append('investmentCase.'+k,values[k]);
                 }
 
-                console.log(params,'params');
                 addInvestmentCase(params);
                 this.handleOk();
             }
@@ -141,14 +141,8 @@ class AddModel extends React.Component {
         });
     }
 
-
-
-    componentWillMount(){
-
-    }
-
     componentDidMount(){
-
+        this.props.onRef(this)
     }
 
     render() {
@@ -164,7 +158,6 @@ class AddModel extends React.Component {
         }
         return (
             <div>
-                {this.props.type === 'add' ? <Button type="primary" onClick={this.showModal}>添加<Icon type="plus"/></Button> : <a href="javascript:;" style={{ color: '#1990FF'}} onClick={this.showModal}>编辑</a>}
                 <Modal
                     className='modal666'
                     title="新增/编辑投资案例基本信息"
@@ -281,7 +274,7 @@ class AddModel extends React.Component {
                                 >
                                     {getFieldDecorator('text', {
                                     })(
-                                        <Ueditor  idEditor={'Content'} height="200" valuezhi="value" callback={(content)=>{
+                                        <Ueditor  id_content='content' height="200" valuezhi="value" callback={(content)=>{
                                             this.handleUeditorContent(content);
                                         }}/>
                                     )}
