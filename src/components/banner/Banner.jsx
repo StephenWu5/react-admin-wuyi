@@ -2,7 +2,7 @@ import React from 'react';
 import reqwest from 'reqwest';
 import {Breadcrumb,Button,Icon,Menu,Dropdown,Input} from 'antd';
 import { Table, Divider } from 'antd';
-import AddModel from './addModel.jsx';
+import AddOrEditModel from './addOrEditModel.jsx';
 import  $ from  'jquery';
 // import EditModel from './editModel';
 import DeleteModel from './deleteModel.jsx';
@@ -16,7 +16,6 @@ const Search = Input.Search;
 class Banner extends React.Component {
     constructor(props){
         super(props);
-        this.showAddModel = this.showAddModel.bind(this);
     }
     //组件中的变量
     state = {
@@ -24,18 +23,18 @@ class Banner extends React.Component {
         arr: ['旅游', '教育', '科技金庸','体育娱乐'],
         selectedRowKeys: [], 
         loading: false,
-        data: [],
+        dataList: [],
         pagination: {},
         visibleModel: false,
     };
 
     //父组件调用子组件方法
     onRef = (ref) => {
-        this.addModel = ref
+        this.child = ref
     }
 
-    showAddModel = (e) => {
-        this.addModel.showModal();
+    showAddModel = (type,showModal,e) => {
+        this.child.showModal(type,showModal,e);
     }
 
     // 表格
@@ -53,6 +52,7 @@ class Banner extends React.Component {
             ...filters,
         });
     }
+
     handleSearchClick = (keyWord,pagination) => {
         console.log(keyWord,'keyword');
         this.fetch({
@@ -77,13 +77,24 @@ class Banner extends React.Component {
             if (this._isMounted) {
                 this.setState({
                     loading: false,
-                    data: data.obj.list,
+                    dataList: data.obj.list,
                     pagination,
                 });
             }
         });
     }
-    
+
+    //表格传参给编辑模态框
+    findObjByID(id){
+        let arr = this.state.dataList;
+        for(var k in arr){
+            if(arr[k].id === id){
+                return arr[k];
+            }
+        }
+        return null
+    }
+
     click_a(event){
         this.setState({
             searchKey: $(event.target).text()
@@ -109,14 +120,15 @@ class Banner extends React.Component {
     }
     
     render() {
-        //为了让弹窗出现,所以写在这里
+        //配合下面的this.showAddModel方法,所以写在这里
         const columns = [{
             title: '案例名称',
             dataIndex: 'name',
             sorter: true,
             render: name => `${name}`,
             width: '8%',
-        }, {
+        },
+            {
             title: '所属领域',
             dataIndex: 'style_id',
             render: title => {
@@ -166,14 +178,17 @@ class Banner extends React.Component {
             {
                 title: '操作',
                 dataIndex: 'id',
-                render: (id, record) => (
-                    <span style={{fontWeight: 400,fontSize: '12px'}}>
-            <a href="javascript:;" style={{ color: '#1990FF'}} onClick={this.showAddModel}>编辑</a>
+                render: (id, record) => {
+                    var targetObj = this.findObjByID(id);
+                    return (
+                        <span style={{fontWeight: 400,fontSize: '12px'}}>
+            <a href="javascript:;" style={{ color: '#1990FF'}} onClick={this.showAddModel.bind(this,'edit',{targetObj})}>编辑</a>
             <Divider type="vertical" />
             <DeleteModel id={id}></DeleteModel>
             <Divider type="vertical" />
         </span>
-                ),
+                    )
+                },
                 width: '5%',
             },
         ];
@@ -201,7 +216,7 @@ class Banner extends React.Component {
                 </Breadcrumb>
                 {/*表格*/}
                 <div className="content-wrapper">
-                    <Button type="primary" onClick={this.showAddModel}>添加<Icon type="plus"/></Button>
+                    <Button type="primary" onClick={this.showAddModel.bind(this,'add',null)}>添加<Icon type="plus"/></Button>
                     <Dropdown overlay={menu} placement="bottomLeft">
                         <Button>{this.state.searchKey}</Button>
                     </Dropdown>
@@ -216,7 +231,7 @@ class Banner extends React.Component {
                     <Table
                         columns={columns}
                         rowKey={record => record.id}
-                        dataSource={this.state.data}
+                        dataSource={this.state.dataList}
                         pagination={this.state.pagination}
                         loading={this.state.loading}
                         onChange={this.handleTableChange}
@@ -224,7 +239,7 @@ class Banner extends React.Component {
                 </div>
 
                 {/*弹窗层*/}
-                <AddModel style={{width: '180px'}} className="addMode" onRef={this.onRef}></AddModel>
+                <AddOrEditModel style={{width: '180px'}} className="addModel" onRef={this.onRef}></AddOrEditModel>
             </div>
         );
     }

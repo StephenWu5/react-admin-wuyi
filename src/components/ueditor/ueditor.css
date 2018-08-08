@@ -1,0 +1,9 @@
+/*百度编辑器*/
+.edui-editor.edui-default{
+    width: 100%!important;
+}
+
+.edui-editor-iframeholder.edui-default{
+    width: 100%!important;
+    height: 210px!important;
+}

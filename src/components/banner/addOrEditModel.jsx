@@ -5,7 +5,7 @@ import {
     Form, Select, InputNumber, Switch, Radio,
     Slider,  Rate,
 } from 'antd';
-import './addModel.css';
+import './addOrEditModel.css';
 import {addInvestmentCase} from '@/axios/index.js';
 import Ueditor from '@/components/ueditor/ueditor.jsx';
 
@@ -53,27 +53,85 @@ const menu =  (
 )
 //下拉菜单的结束
 
-class AddModel extends React.Component {
+class AddOrEditModel extends React.Component {
     constructor(props){
         super(props);
-        this.switchToA = this.switchToA.bind(this);
-        this.switchToB = this.switchToB.bind(this);
     }
 
     state = {
         visible: false,
         visibleA: 'active',
-        visibleB: 'hidden'
+        visibleB: 'hidden',
+        haha: 'haha666'
     }
 
 
 
-    showModal = () => {
+    showModal = (type,targetObj,e) => {
         this.setState({
-            visible: true,
+            visible: true
+        });
+
+        this.switchToA();
+        this.ModelType(type,targetObj);
+    }
+
+    // 添加vs编辑模态框模式
+    ModelType = (type,targetObj) => {
+        const { setFieldsValue } = this.props.form;
+        // console.log(targetObj,'targetObj');
+
+        if(type === 'add'){
+            setFieldsValue({
+                detail: '',
+                img: '',
+                logo: '',
+                name: '',
+                style_id: '',
+                text: '646446',
+                title: '',
+                url: ''
+            });
+
+            setTimeout(() => {
+                this.ueditor.setEditorContent('');
+            },1000);
+        }else if(type === 'edit'){
+            console.log(type,'----edit');
+            targetObj = targetObj.targetObj;
+            setFieldsValue({
+                detail: targetObj.detail,
+                // img: targetObj.img,
+                // logo: targetObj.logo,
+                name: targetObj.name,
+                style_id: targetObj.style_id,
+                title: targetObj.title,
+                url: targetObj.url,
+                text: targetObj.text
+            });
+
+            //百度的富文本编辑器
+            setTimeout(() => {
+                this.ueditor.setEditorContent(targetObj.text);
+            },1000);
+        }
+
+    }
+
+    //获取百度富文本编辑器的给到form对应的formitem
+    handleUeditorContent(content){
+        console.log(content,'content');
+        const { setFieldsValue } = this.props.form;
+        setFieldsValue({
+            text: content
         });
     }
 
+    onRefUeditor = (ref) => {
+        this.ueditor = ref
+    }
+
+    // 模态框的显示和隐藏
     handleOk = (e) => {
         this.setState({
             visible: false,
@@ -87,13 +145,13 @@ class AddModel extends React.Component {
     }
 
     // 切换模态框的内容
-    switchToA(){
+    switchToA = () => {
         this.setState({
             visibleA: 'active',
             visibleB: 'hidden'
         });
     }
-    switchToB(){
+    switchToB = () => {
         this.setState({
             visibleA: 'hidden',
             visibleB: 'active'
@@ -103,6 +161,16 @@ class AddModel extends React.Component {
     //表单提交
     handleSubmit = (e) => {
         e.preventDefault();
+
+        // 提交前图片处理一下
+        const { setFieldsValue,  getFieldValue } = this.props.form;
+        let logo = getFieldValue('logo')[0].response.obj;
+        let img = getFieldValue('img')[0].response.obj;
+        setFieldsValue({
+            logo: logo,
+            img: img
+        })
+
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 var params = new URLSearchParams();
@@ -124,25 +192,42 @@ class AddModel extends React.Component {
         // });
     }
 
-    normFile = (e) => {
-        console.log('Upload event:', e);
+    // img图片上传处理
+    normFileImg = (e) => {
+        console.log(e,'e');
+        var response  = e.file.response;
+        var obj = '';
+
+        if(response !== undefined){
+            obj = response.obj;
+        }
         if (Array.isArray(e)) {
             return e;
         }
         return e && e.fileList;
     }
 
-    //获取百度富文本编辑器的值
-    handleUeditorContent(content){
-        console.log(content,'content');
-        const { setFieldsValue } = this.props.form;
-        setFieldsValue({
-            text: content
-        });
+    // logo图片上传处理
+    normFileLogo = (e) => {
+        console.log(e,'e');
+        var response  = e.file.response;
+        var obj = '';
+
+        if(response !== undefined){
+            obj = response.obj;
+
+        }
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
     }
 
+
+
     componentDidMount(){
-        this.props.onRef(this)
+        this.props.onRef(this);
+
     }
 
     render() {
@@ -152,10 +237,12 @@ class AddModel extends React.Component {
             labelCol: {span: 5},
             wrapperCol: {span: 12}
         }
+
         const formItemLayout_ueditor = {
             labelCol: {span: 5},
             wrapperCol: {span: 24}
         }
+
         return (
             <div>
                 <Modal
@@ -216,7 +303,7 @@ class AddModel extends React.Component {
                                 >
                                     {getFieldDecorator('img', {
                                         valuePropName: 'fileList',
-                                        getValueFromEvent: this.normFile,
+                                        getValueFromEvent: this.normFileImg,
                                     })(
                                         <Upload name="logo" action="/api/upload/handle?type=img" listType="picture">
                                             <Button>
@@ -231,7 +318,7 @@ class AddModel extends React.Component {
                                 >
                                     {getFieldDecorator('logo', {
                                         valuePropName: 'fileList',
-                                        getValueFromEvent: this.normFile,
+                                        getValueFromEvent: this.normFileLogo,
                                     })(
                                         <Upload name="logo" action="/api/upload/handle?type=img" listType="picture">
                                             <Button>
@@ -274,9 +361,9 @@ class AddModel extends React.Component {
                                 >
                                     {getFieldDecorator('text', {
                                     })(
-                                        <Ueditor  id_content='content' height="200" valuezhi="value" callback={(content)=>{
+                                        <Ueditor  id_content='content' height="200" valuezhi={this.state.haha}   callback={(content)=>{
                                             this.handleUeditorContent(content);
-                                        }}/>
+                                        }} onRefUeditor={this.onRefUeditor}/>
                                     )}
                                 </FormItem>
                             </div>
@@ -288,6 +375,6 @@ class AddModel extends React.Component {
     }
 }
 
-const WrappedApp = Form.create()(AddModel);
+const WrappedApp = Form.create()(AddOrEditModel);
 
 export default WrappedApp;

@@ -4,11 +4,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchData, receiveData } from '@/action';
 import axios from 'axios';
+import http from '@/axios/server.js';
 import Base from '@/commonjs/base.js';
 
 const FormItem = Form.Item;
 
 class Login extends React.Component {
+    async login(params){
+        const res = await http.post('/api/rbacUser/login',params);
+        console.log(res);
+        if(res.status === 200){
+            Base.setCookie(Base.cookieId,res.data.obj,365*24*60*60*1000);
+            this.props.history.push('/app/index');
+        }
+    }
+
     componentWillMount() {
     }
  
@@ -18,17 +28,11 @@ class Login extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                var params = new URLSearchParams();
-                params.append('account', values.account);
-                params.append('password', values.password);
-                axios.post('/api/rbacUser/login',params).then(result=>{
-                    result = result.data;
-                    console.log(result,'result');
-                    if(result.code === 0){
-                        Base.setCookie(Base.cookieId,result.obj,365*24*60*60*1000);
-                        this.props.history.push('/app/index');
-                    }
-                })
+                var params = {
+                    account: values.account,
+                    password: values.password
+                }
+                this.login(params);
             }
         });
     };

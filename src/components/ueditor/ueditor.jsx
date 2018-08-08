@@ -1,16 +1,36 @@
 import React,{Component} from 'react';
+
+import './ueditor.css';
+
+
+var editor = null;
+
+
 class Ueditor extends Component {
     constructor(){
         super();
     }
 
-    componentDidMount(){
-        console.log(this.props.id_content,'props');
+    state = {
+        editor: null
+    }
+
+    setEditorContent(value){
+        editor.setContent(value);
+    }
+
+    initEditorContent = () => {
+        console.log(this.props.id_content,'props66565');
         var UE=new Date().UE;
         //再次初始化有问题  要销毁原来的
-        try{UE.getEditor(this.props.id_content).destroy();}catch(err){}
+        try {
+            UE.getEditor(this.props.id_content).destroy();
+            console.log(UE.getEditor(this.props.id_content),'99999');
+        } catch (err) {
+
+        }
+
         var that = this;
-        var editor = null;
         editor = UE.getEditor(this.props.id_content, {
             lang:"zh-cn" ,initialFrameHeight: this.props.height , initialFrameWidth: '100%'
         });
@@ -25,9 +45,23 @@ class Ueditor extends Component {
 
     }
 
+    componentDidMount(){
+        //必须在这里声明，所以 ref 回调可以引用它
+        this.props.onRefUeditor(this);
+
+        this.initEditorContent();
+    }
+
+
     componentWillUnmount() {
 
     }
+
+    componentDidUpdate(){
+
+    }
+
+
 
     render(){
         return (
