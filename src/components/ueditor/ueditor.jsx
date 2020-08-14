@@ -1,18 +1,11 @@
 import React,{Component} from 'react';
-
 import './ueditor.css';
 
-
 var editor = null;
-
 
 class Ueditor extends Component {
     constructor(){
         super();
-    }
-
-    state = {
-        editor: null
     }
 
     setEditorContent(value){
@@ -20,12 +13,10 @@ class Ueditor extends Component {
     }
 
     initEditorContent = () => {
-        console.log(this.props.id_content,'props66565');
         var UE=new Date().UE;
         //再次初始化有问题  要销毁原来的
         try {
             UE.getEditor(this.props.id_content).destroy();
-            console.log(UE.getEditor(this.props.id_content),'99999');
         } catch (err) {
 
         }
@@ -48,20 +39,8 @@ class Ueditor extends Component {
     componentDidMount(){
         //必须在这里声明，所以 ref 回调可以引用它
         this.props.onRefUeditor(this);
-
         this.initEditorContent();
     }
-
-
-    componentWillUnmount() {
-
-    }
-
-    componentDidUpdate(){
-
-    }
-
-
 
     render(){
         return (

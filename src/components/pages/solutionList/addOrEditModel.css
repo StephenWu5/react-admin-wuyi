@@ -1,0 +1,39 @@
+ .ant-modal-title{
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.ant-modal-body{
+    position: relative;
+    height: 514px;
+}
+
+.ant-modal-body ul{
+    position:absolute;
+    right: 0px;
+    top: -30px;
+}
+
+.ant-modal-body ul li{
+    list-style: none;
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.ant-modal-body ul li.active{
+    padding-bottom: 7px;
+    border-bottom: 3px solid #36C6D3;
+}
+
+.ant-modal-body .content .active{
+    display: block;
+}
+
+.ant-modal-body .content .hidden{
+    display: none!important;
+}
+
+
+
+

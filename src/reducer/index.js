@@ -1,32 +1,36 @@
-/**
- * Created by 叶子 on 2017/7/30.
- */
+
 import { combineReducers } from 'redux';
 import * as type from '../action/type';
 
-const handleData = (state = {isFetching: true, data: {}}, action) => {
+//从localstorage从取值
+const defaultData = JSON.parse(localStorage.getItem('auth'));
+console.log(defaultData,'defaultData')
+
+const handleData = (state = {isFetching: true, data: defaultData}, action) => {
     switch (action.type) {
         case type.REQUEST_DATA:
-            return {...state, isFetching: true};
-        case type.RECEIVE_DATA:
-            return {...state, isFetching: false, data: action.data};
-        default:
-            return {...state};
-    }
-};
-const httpData = (state = {}, action) => {
-    switch (action.type) {
-        case type.RECEIVE_DATA:
-        case type.REQUEST_DATA:
-            return {
-                ...state,
-                [action.category]: handleData(state[action.category], action)
+            return {...state, isFetching: true,
             };
+        case type.RECEIVE_DATA:
+            console.log(action.payload,'PAYLOAD')
+            return {...state, isFetching: false, ...action.payload};
         default:
             return {...state};
     }
 };
+//const httpData = (state = {isFetching: true, auth: defaultData}, action) => {
+//    switch (action.type) {
+//        case type.RECEIVE_DATA:
+//        case type.REQUEST_DATA:
+//            return {
+//                ...state,
+//                [action.category]: handleData(state[action.category], action)
+//            };
+//        default:
+//            return {...state};
+//    }
+//};
 
 export default combineReducers({
-    httpData
+   handleData 
 });

@@ -1,19 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './style/lib/animate.css';
-import registerServiceWorker from './registerServiceWorker';
+
+import registerServiceWorker from './registerServiceWorker'; //脚手架自动，跑服务器
+import { AppContainer } from 'react-hot-loader'; //热更新
+
+import thunk from 'redux-thunk'; //thunk是中间件，为了异步操作
+import { createStore, applyMiddleware } from 'redux'; //redux相关
+import reducer from './reducer'; 
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import reducer from './reducer';
-import { AppContainer } from 'react-hot-loader';
+
 import Page from './Page';
+import './style/lib/animate.css';
 
 // redux 注入操作
 const middleware = [thunk];
 const store = createStore(reducer, applyMiddleware(...middleware));
-console.log(store.getState());
-
 
 const render = Component => {   // 增加react-hot-loader保持状态刷新操作，如果不需要可去掉并把下面注释的打开
     ReactDOM.render(

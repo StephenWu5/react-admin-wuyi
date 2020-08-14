@@ -1,0 +1,7 @@
+.deleteModal .ant-modal-body{
+    height: 0!important;
+}
+
+.deleteModal .ant-modal-footer{
+    border: 0!important;
+}

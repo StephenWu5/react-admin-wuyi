@@ -183,7 +183,7 @@ let Base = {
       return true
     },
     //富文本编辑器全屏
-    ueFullScreenHandler(event, isFullScreen) {
+    ueFullScreenHandler: function(event, isFullScreen) {
         let $backDrop = $('.modal-backdrop'),
             $overflowEls = $('.modal-open, .modal-open .modal'),
             $navbar = $('.navbar-fixed-top'),

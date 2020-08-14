@@ -7,16 +7,24 @@ import { receiveData } from './action';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Routes from './routes/index';
+
 const { Content, Footer } = Layout;
 
+let user,account;
 
 class App extends Component {
+    constructor(props){
+        super(props);
+
+    }
     state = {
         collapsed: false,
+        user: null
     };
     componentWillMount() {
         const { receiveData } = this.props;
-        const user = JSON.parse(localStorage.getItem('user'));
+        user = JSON.parse(localStorage.getItem('auth'));
+        account = user === null ? '未定义' : user.data.permissions.name.account;
         // 这里写一个接口获取用户名;
         // user && receiveData(user, 'auth');
         //适配屏幕
@@ -29,15 +37,13 @@ class App extends Component {
     componentDidMount() {
         //新消息管理
         const openNotification = () => {
+            let message = '您好-' + account;
             notification.open({
-              message: '博主-yezihaohao',
+              message: message,
               description: (
                   <div>
                       <p>
-                          GitHub地址： <a href="https://github.com/yezihaohao" target="_blank" rel="noopener noreferrer">https://github.com/yezihaohao</a>
-                      </p>
-                      <p>
-                          博客地址： <a href="https://yezihaohao.github.io/" target="_blank" rel="noopener noreferrer">https://yezihaohao.github.io/</a>
+                         欢迎登录!
                       </p>
                   </div>
               ),
@@ -54,7 +60,7 @@ class App extends Component {
         const { receiveData } = this.props;
         const clientWidth = document.body.clientWidth;
         console.log(clientWidth);
-        receiveData({isMobile: clientWidth <= 992}, 'responsive');
+        //receiveData({isMobile: clientWidth <= 992}, 'responsive');
     };
     // 侧边栏控制
     toggle = () => {
@@ -68,12 +74,12 @@ class App extends Component {
             <Layout>
                 {!responsive.data.isMobile && <SiderCustom collapsed={this.state.collapsed} />}
                 <Layout style={{flexDirection: 'column'}}>
-                    <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={auth.data || {}} />
+                    <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={auth || {}} />
                     <Content style={{ margin: '0 16px', overflow: 'initial' }}>
                         <Routes auth={auth} />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                        {new Date().getFullYear()} © GMS by 体游控股有限公司
+                        {new Date().getFullYear()} © GMS by 豆腐坊子有限公司
                     </Footer>
                 </Layout>
             </Layout>
@@ -81,8 +87,10 @@ class App extends Component {
     }
 }
 
+
 const mapStateToProps = state => {
-    const { auth = {data: {}}, responsive = {data: {}} } = state.httpData;
+    console.log(state.handleData,'state.handleData')
+    const { auth = {data: {}}, responsive = {data: {}} } = state.handleData;
     return {auth, responsive};
 };
 const mapDispatchToProps = dispatch => ({

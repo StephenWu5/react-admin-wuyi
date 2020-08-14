@@ -378,7 +378,7 @@ var ChartsFlotcharts = function() {
                 });
             }
 
-            //Dynamic Chart
+            //Solution Chart
 
             function chart4() {
                 if ($('#chart_4').size() != 1) {

@@ -4,7 +4,16 @@ export default {
             key: '/app/index', title: '首页', icon: 'star', component: 'Index'
         },
         {
-            key: '/app/banner', title: '投资案例管理', icon: 'star', component: 'Banner'
+            key: '/app/banner', title: '轮播图管理', icon: 'picture', component: 'Banner'
+        },
+        {
+            key: '/app/partner', title: 'K管理', icon: 'team', component: 'Partner'
+        },
+        {
+            key: '/app/contactUs', title: 'j管理', icon: 'contacts', component: 'ContactUs'
+        },
+        {
+            key: '/app/dynamic', title: 'f管理', icon: 'table', component: 'Dynamic'
         },
         {
             key: '/subs4', title: '页面', icon: 'switcher',
@@ -12,15 +21,7 @@ export default {
                 { key: '/login', title: '登录' },
                 { key: '/404', title: '404' },
             ],
-        },
-        {
-            key: '/app/auth', title: '权限管理', icon: 'safety',
-            subs: [
-                { key: '/app/auth/basic', title: '基础演示', component: 'AuthBasic' },
-                { key: '/app/auth/routerEnter', title: '路由拦截', component: 'RouterEnter', auth: 'auth/testPage' },
-            ],
-        },
-        
+        }
     ],
     others: []  // 非菜单相关路由
 }

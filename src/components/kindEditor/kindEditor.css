@@ -1,0 +1,43 @@
+/*kindEditor的样式*/
+.ant-modal-content .ant-modal-body .content{
+    height: 100%!important;
+}
+
+.ant-modal-content .ant-modal-body .content .ant-form{
+    height: 100%!important;
+}
+
+.ant-modal-content .ant-modal-body .content .ant-form .editor{
+    height: 95%!important;
+}
+
+.ant-modal-content .ant-modal-body .content .ant-form .editor .ant-row{
+    height: 100%!important;
+}
+
+.ant-modal-content .ant-modal-body .content .ant-form .editor .ant-row .ant-col-24{
+    height: 100%!important;
+}
+
+
+.ant-form-item-control{
+    height: 100%!important;
+}
+
+.ant-form-item-children {
+    height: 100%!important;
+}
+
+.ke-container {
+    width: 100%!important;
+    height: 100%!important;
+}
+
+.ke-edit{
+    /*height: 647px!important;*/
+    /*height: 100%!important;*/
+}
+
+.ke-edit-iframe{
+    height: 100%!important;
+}

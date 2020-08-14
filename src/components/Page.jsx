@@ -1,6 +1,3 @@
-/**
- * Created by hao.cheng on 2017/4/16.
- */
 import React from 'react';
 
 class Page extends React.Component {
@@ -10,7 +7,6 @@ class Page extends React.Component {
                 {this.props.children}
             </div>
         )
-
     }
 }
 

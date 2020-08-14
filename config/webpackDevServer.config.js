@@ -26,7 +26,7 @@ module.exports = function(proxy, allowedHost) {
       ignored: /node_modules/,
     },
     https: protocol === 'https',
-    host: host,
+    host: '192.168.1.138',
     overlay: false,
     historyApiFallback: {
       disableDotRule: true,
